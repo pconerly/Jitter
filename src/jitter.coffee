@@ -48,12 +48,16 @@ color = require('./ansi-color').set
 if path.basename(process.argv[1]) is 'witter'
 
     targetlib = 'coco'
-    target_ext = '.coco'
+    target_exts = ['.coco']
 
 else
-
-    targetlib = 'coffee-script'
-    target_ext = '.coffee'
+    try 
+        cjsx = require 'coffee-react'
+        targetlib = 'coffee-react'
+        target_exts = ['.cjsx', '.coffee']
+    catch 
+        targetlib = 'coffee-script'
+        target_exts = ['.coffee']
 
 CoffeeScript =  require targetlib
 
@@ -132,7 +136,7 @@ compile = (source, target, options) ->
 
         try
 
-            if path.extname(sourcePath) is target_ext
+            if path.extname(sourcePath) in target_exts
 
                 readScript sourcePath, target, options
 
